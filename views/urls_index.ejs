@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>TinyApp</title>
+</head>
+<body>
+    <!-- Add your EJS code here -->
+    <% include ../partials/_header%>
+    <% for(const shortUrl in urls){ %> 
+      <li><%= shortUrl %> : <%= urls[shortUrl] %></li>
+    <% } %>
+</body>
+</html>

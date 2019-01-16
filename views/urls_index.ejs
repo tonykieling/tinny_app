@@ -7,22 +7,17 @@
     <!-- Add your EJS code here -->
     <% include ../partials/_header%>
 
-    <ul>
-        <% for(const shortUrl in urls){ %> 
-          <li><%= shortUrl %> : <%= urls[shortUrl] %></li>
-          <form action="/urls/<%= shortUrl%>/delete" method="post">
-            <button>Delete X</button>
-          </form>
-        <% } %>
-    </ul>
-
-    <!-- <form action="/urls" method="post">
-      <label for="urls.shortURL">ShortURL: </label>
-      <input id="urls.shortURL" type="text" name="shortURL">
-
-      <label for="urls[shortURL]">LongURL: </label>
-      <input id="urls.shortURL" type="text" name="urls.shortURL">
-      <button>asdqwe</button>
-    </form> -->
+    <% for(const shortUrl in urls){ %> 
+  <table >
+    <tr>
+      <td>
+        <%= shortUrl %> --> <%= urls[shortUrl]%>
+        <form action="/urls/<%= shortUrl%>/delete" method="post">      
+        <a href= "/urls/<%= shortUrl%>/">Edit</a>
+        <button>Delete</button>     
+      </form> 
+      </td>          
+  </table>        
+    <% } %>
 </body>
 </html>

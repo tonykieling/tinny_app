@@ -4,8 +4,14 @@
   <title>TinyApp</title>
 </head>
 <body>
-    <% include ../partials/_header%>
-    <!-- Add your EJS code here -->
-  <li><%= shortURL %> -  <%= longURL %> </li>
+  <!-- <% include ../partials/_header%> -->
+  <br>
+  <h2><%= `ShortURL: ${shortURL}` %></h2>
+
+  <form action="/urls/<%=shortURL%>" method="post">
+    <input id="shortURL" type="text" name="longURL">
+    <button>Update</button>
+  </form>
+
 </body>
 </html>

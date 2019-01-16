@@ -6,8 +6,23 @@
 <body>
     <!-- Add your EJS code here -->
     <% include ../partials/_header%>
-    <% for(const shortUrl in urls){ %> 
-      <li><%= shortUrl %> : <%= urls[shortUrl] %></li>
-    <% } %>
+
+    <ul>
+        <% for(const shortUrl in urls){ %> 
+          <li><%= shortUrl %> : <%= urls[shortUrl] %></li>
+          <form action="/urls/<%= shortUrl%>/delete" method="post">
+            <button>Delete X</button>
+          </form>
+        <% } %>
+    </ul>
+
+    <!-- <form action="/urls" method="post">
+      <label for="urls.shortURL">ShortURL: </label>
+      <input id="urls.shortURL" type="text" name="shortURL">
+
+      <label for="urls[shortURL]">LongURL: </label>
+      <input id="urls.shortURL" type="text" name="urls.shortURL">
+      <button>asdqwe</button>
+    </form> -->
 </body>
 </html>

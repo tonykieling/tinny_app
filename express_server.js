@@ -1,3 +1,4 @@
+// https://github.com/tonykieling/tinny_app
 
 var express = require("express");
 var app = express();
@@ -26,7 +27,7 @@ var urlDatabase = {
 };
 
 app.get("/", (req, res) => {
-  res.send("Hello!");
+  res.send("Hello WD!");
 });
 
 app.get("/urls.json", (req, res) => {
@@ -56,12 +57,10 @@ app.get("/hello", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  console.log("?????: ", req.body.longURL);  // debug statement to see POST parameters
+  // console.log("?????: ", req.body.longURL);  // debug statement to see POST parameters
   let newShortURL = generateRandomString();
   urlDatabase[newShortURL] = req.body.longURL;
   console.log(urlDatabase);
-  // res.send("Ok");         // Respond with 'Ok' (we will replace this)
-  // res.send(`${newShortURL} is shortURL for ${urlDatabase[newShortURL]}`);
   res.redirect(`http://localhost:8080/urls/${newShortURL}`);
 });
 
@@ -69,7 +68,14 @@ app.get("/u/:shortURL", (req, res) => {
   res.redirect(urlDatabase[req.params.shortURL]);
 });
 
+// delete short url
+app.post("/urls/:id/delete", (req, res) => {
+  delete urlDatabase[req.params.id];
+
+  res.redirect("/urls");
+});
+
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
+  console.log(`Example app listening on port ${PORT} at ${new Date().toLocaleTimeString()}!`);
 });
 

@@ -62,34 +62,34 @@ app.get("/urls.json", (req, res) => {
 
 app.get("/urls", function (req, res) {
   let templateVars = { urls: urlDatabase };
-  if (!req.cookies.name){
+  if (!req.cookies.user_id){
     console.log("starting withouth cookie");
     templateVars["username"] = null;
     console.log(templateVars.username);
   } else {
-    templateVars.username = req.cookies.name;
+    templateVars.username = req.cookies.user_id;
   }
   res.render('urls_index', templateVars);
 });
 
 app.get("/urls/new", (req, res) => {
   let templateVars = { urls: urlDatabase };
-  if (!req.cookies.name){
+  if (!req.cookies.user_id){
     console.log("starting withouth cookie");
     templateVars["username"] = null;
     console.log(templateVars.username);
   } else {
-    templateVars.username = req.cookies.name;
+    templateVars.username = req.cookies.user_id;
   }  
   res.render("urls_new", templateVars);
 });
 
 app.get("/urls/:id", (req, res) => {
   let templateVars = { urls: urlDatabase, shortURL: req.params.id };
-  if (!req.cookies.name){
+  if (!req.cookies.user_id){
     templateVars["username"] = null;
   } else {
-    templateVars.username = req.cookies.name;
+    templateVars.username = req.cookies.user_id;
   } 
   res.render("urls_show", templateVars);
   // res.render("urls_show");
@@ -127,7 +127,7 @@ app.post("/urls/:id", (req, res) => {
 // login feature
 app.post("/login", (req, res) => {
   console.log("cookie: " , req.body.username);
-  res.cookie('name', req.body.username);
+  res.cookie('user_id', req.body.username);
   res.redirect("/urls");
 });
 
@@ -139,10 +139,23 @@ app.post("/logout", (req, res) => {
 
 // route to the register page
 app.get("/register", (req, res) => {
-  console.log("register route");
   res.render("user_register");
 });
 
+// route to register the user
+app.post("/register", (req, res) => {
+  console.log("register route");
+  console.log("req.body.email: ", req.body.email, "req.body.password: ", req.body.password);
+  const randomUserId = generateRandomString();
+  console.log("new random user id: ", randomUserId);
+  users[randomUserId] = {
+    id: req.body.email,
+    password: req.body.password
+  };
+  console.log("new user: ", users[randomUserId]);
+  res.cookie('user_id', randomUserId);
+  res.redirect("/urls");
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);

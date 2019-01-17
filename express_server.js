@@ -79,6 +79,7 @@ app.get("/hello", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
+  console.log("NEW SERVER");
   let newShortURL = generateRandomString();
   urlDatabase[newShortURL] = req.body.longURL;
   res.redirect(`http://localhost:8080/urls/${newShortURL}`);
@@ -111,6 +112,11 @@ app.post("/login", (req, res) => {
 app.post("/logout", (req, res) => {
   res.clearCookie('name');
   res.redirect("/urls");
+});
+
+app.get("/register", (req, res) => {
+  console.log("register route");
+  res.render("user_register");
 });
 
 

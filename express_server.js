@@ -146,6 +146,21 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
   console.log("register route");
   console.log("req.body.email: ", req.body.email, "req.body.password: ", req.body.password);
+
+  // check if the email or password are empty, if so, it sends 400
+  if ((!req.body.email) || (!req.body.password)){
+    res.sendStatus(400);
+    return;
+  }
+  const checkUser = (Object.keys(users).filter(key =>
+    users[key].email === req.body.email
+  ));
+  console.log("checkUser: ", checkUser);
+  if ((checkUser.length)){ // || (checkUser === [])) {
+    res.sendStatus(400);
+    return;
+  }
+
   const randomUserId = generateRandomString();
   console.log("new random user id: ", randomUserId);
   users[randomUserId] = {

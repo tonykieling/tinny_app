@@ -1,1 +1,23 @@
 <h1>Tiny URL</h1>
+
+<% if (username) { %>
+  <%= console.log("username: ", username); %>
+  <form action="/logout/" method="post">
+    <p> User: 
+    <%= username %>
+    <a href="/urls/new"> Create new URL</a>
+    <a href="/urls"> Home</a>
+    <button type="submit">Logout</button>
+    </p>
+  </form>
+
+<% } else {%>
+  <%= console.log("NO COOKIE"); %>
+  <form action="/login/" method="post">
+    <input id="username" type="text" name="username">
+    <button>Login</button>
+  </form>
+
+<% }%>
+
+

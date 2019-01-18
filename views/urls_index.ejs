@@ -9,13 +9,13 @@
 
     <br>
     <br>
-    <% for(const shortUrl in urls){ %> 
+    <% for(const item in urls){ %> 
   <table >
     <tr>
       <td>
-        <%= shortUrl %> --> <%= urls[shortUrl]%>
-        <form action="/urls/<%= shortUrl%>/delete" method="post">      
-        <a href= "/urls/<%= shortUrl%>/">Edit</a>
+        <%= urls[item].shortURL %> --> <%= urls[item].longURL%>
+        <form action="/urls/<%= urls[item].shortURL%>/delete" method="post">      
+        <a href= "/urls/<%= urls[item].shortURL%>/">Edit</a>
         <button>Delete</button>     
       </form> 
       </td>          

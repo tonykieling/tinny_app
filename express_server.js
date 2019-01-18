@@ -31,9 +31,9 @@ var urlDatabase = {
 
 const users = { 
   "test": {
-    id: "test", 
+    id: "testid", 
     email: "test@test.com", 
-    password: "test"
+    password: "testpasswd"
   },
   "anotherrandomuser": {
     id: "anotherrandomuser", 
@@ -129,10 +129,30 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  console.log("cookie: " , req.body.username);
-  res.cookie('user_id', req.body.username);
+  const checkUser = (Object.keys(users).filter(key =>
+    users[key].email === req.body.email
+  ));
+  console.log("checkUser: ", checkUser);
+  if (!checkUser.length) {
+    console.log("No user");
+    res.sendStatus(403);
+    return;
+  }
+  console.log("req.body.email: ", req.body.email, "req.body.password: ", req.body.password);
+  console.log(users[checkUser].password);
+  if (req.body.password !== users[checkUser].password){
+    console.log("User, but wrong password");
+    res.sendStatus(403);
+    return;
+  }
+  console.log("user alread exists");
+  res.cookie('user_id', checkUser);
   res.redirect("/urls");
 });
+
+
+
+
 
 // logout feature
 app.post("/logout", (req, res) => {

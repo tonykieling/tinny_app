@@ -141,7 +141,8 @@ app.get("/hello", (req, res) => {
 
 
 app.get("/u/:shortURL", (req, res) => {
-  res.redirect(urlDatabase[req.params.shortURL]);
+  console.log("hereeeeee: ", req.params.shortURL);
+  res.redirect(urlDatabase[req.params.shortURL].longURL);
 });
 
 
@@ -156,11 +157,14 @@ app.get("/urls/:id", (req, res) => {
   let templateVars = { urls: urlDatabase, shortURL: req.params.id };
   if (!req.cookies.user_id){
     templateVars["user"] = null;
+    res.render("no_user_page");
+    // return;
   } else {
     templateVars.user = users[req.cookies.user_id];
-  } 
-  res.render("urls_show", templateVars);
+    res.render("urls_show", templateVars);
+  }
 });
+
 
 // update short url
 app.post("/urls/:id", (req, res) => {

@@ -30,16 +30,6 @@ var urlDatabase = {
 };
 
 const users = { 
-  "userRandomID": {
-    id: "userRandomID", 
-    email: "user@example.com", 
-    password: "purple-monkey-dinosaur"
-  },
- "user2RandomID": {
-    id: "user2RandomID", 
-    email: "user2@example.com", 
-    password: "dishwasher-funk"
-  },
   "test": {
     id: "test", 
     email: "test@test.com", 
@@ -49,7 +39,17 @@ const users = {
     id: "anotherrandomuser", 
     email: "anotherrandomuser@anotherrandomuser.com", 
     password: "anotherrandomuser"
-  }  
+  },  
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID", 
+    email: "user2@example.com", 
+    password: "dishwasher-funk"
+  }
 };
 
 app.get("/", (req, res) => {
@@ -61,13 +61,15 @@ app.get("/urls.json", (req, res) => {
 });
 
 app.get("/urls", function (req, res) {
+  console.log("HEREUU");
   let templateVars = { urls: urlDatabase };
+  console.log(req.cookies);
   if (!req.cookies.user_id){
     console.log("starting withouth cookie");
-    templateVars["username"] = null;
-    console.log(templateVars.username);
+    templateVars["user_id"] = null;
   } else {
-    templateVars.username = req.cookies.user_id;
+    templateVars.user = users[req.cookies.user_id];
+    console.log("users[req.cookies.user_id]: ", users[req.cookies.user_id]);
   }
   res.render('urls_index', templateVars);
 });
@@ -145,7 +147,7 @@ app.get("/register", (req, res) => {
 // route to register the user
 app.post("/register", (req, res) => {
   console.log("register route");
-  console.log("req.body.email: ", req.body.email, "req.body.password: ", req.body.password);
+  // console.log("req.body.email: ", req.body.email, "req.body.password: ", req.body.password);
 
   // check if the email or password are empty, if so, it sends 400
   if ((!req.body.email) || (!req.body.password)){
@@ -160,11 +162,10 @@ app.post("/register", (req, res) => {
     res.sendStatus(400);
     return;
   }
-
   const randomUserId = generateRandomString();
   console.log("new random user id: ", randomUserId);
   users[randomUserId] = {
-    id: req.body.email,
+    email: req.body.email,
     password: req.body.password
   };
   console.log("new user: ", users[randomUserId]);

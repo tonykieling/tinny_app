@@ -74,10 +74,18 @@ app.get("/urls", function (req, res) {
   res.render('urls_index', templateVars);
 });
 
+app.post("/urls", (req, res) => {
+  console.log("NEW SERVER");
+  let newShortURL = generateRandomString();
+  urlDatabase[newShortURL] = req.body.longURL;
+  res.redirect(`http://localhost:8080/urls/${newShortURL}`);
+});
+
 app.get("/urls/new", (req, res) => {
   let templateVars = { urls: urlDatabase };
   if (!req.cookies.user_id){
-    templateVars["user"] = null;
+    res.render("login_page");
+    return;
   } else {
     templateVars.user = users[req.cookies.user_id];
   }  
@@ -98,13 +106,6 @@ app.get("/hello", (req, res) => {
   let templateVars = { greeting : 'Hello World!'};
   res.render("hello_world", templateVars);
   // res.send("<html><body>Hello <b>World</b></body></html>\n");
-});
-
-app.post("/urls", (req, res) => {
-  console.log("NEW SERVER");
-  let newShortURL = generateRandomString();
-  urlDatabase[newShortURL] = req.body.longURL;
-  res.redirect(`http://localhost:8080/urls/${newShortURL}`);
 });
 
 app.get("/u/:shortURL", (req, res) => {

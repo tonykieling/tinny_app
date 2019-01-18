@@ -124,6 +124,10 @@ app.post("/urls/:id", (req, res) => {
 });
 
 // login feature
+app.get("/login", (req, res) => {
+  res.render("login_page");
+});
+
 app.post("/login", (req, res) => {
   console.log("cookie: " , req.body.username);
   res.cookie('user_id', req.body.username);

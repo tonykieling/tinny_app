@@ -66,7 +66,7 @@ app.get("/urls", function (req, res) {
   console.log(req.cookies);
   if (!req.cookies.user_id){
     console.log("starting withouth cookie");
-    templateVars["user_id"] = null;
+    templateVars["user"] = null;
   } else {
     templateVars.user = users[req.cookies.user_id];
     console.log("users[req.cookies.user_id]: ", users[req.cookies.user_id]);
@@ -77,11 +77,9 @@ app.get("/urls", function (req, res) {
 app.get("/urls/new", (req, res) => {
   let templateVars = { urls: urlDatabase };
   if (!req.cookies.user_id){
-    console.log("starting withouth cookie");
-    templateVars["username"] = null;
-    console.log(templateVars.username);
+    templateVars["user"] = null;
   } else {
-    templateVars.username = req.cookies.user_id;
+    templateVars.user = users[req.cookies.user_id];
   }  
   res.render("urls_new", templateVars);
 });
@@ -89,12 +87,11 @@ app.get("/urls/new", (req, res) => {
 app.get("/urls/:id", (req, res) => {
   let templateVars = { urls: urlDatabase, shortURL: req.params.id };
   if (!req.cookies.user_id){
-    templateVars["username"] = null;
+    templateVars["user"] = null;
   } else {
-    templateVars.username = req.cookies.user_id;
+    templateVars.user = users[req.cookies.user_id];
   } 
   res.render("urls_show", templateVars);
-  // res.render("urls_show");
 });
 
 app.get("/hello", (req, res) => {
@@ -147,8 +144,6 @@ app.get("/register", (req, res) => {
 // route to register the user
 app.post("/register", (req, res) => {
   console.log("register route");
-  // console.log("req.body.email: ", req.body.email, "req.body.password: ", req.body.password);
-
   // check if the email or password are empty, if so, it sends 400
   if ((!req.body.email) || (!req.body.password)){
     res.sendStatus(400);

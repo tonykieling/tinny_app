@@ -6,11 +6,12 @@
 <body>
   <% include ../partials/_header%>
   <br>
-  <h2><%= `ShortURL: ${shortURL}` %></h2>
+  <h2><%= `ShortURL: ${urls.shortURL}` %></h2>
+  <h2><%= `URL: ${urls.longURL}` %></h2>
 
-  <form action="/urls/<%=shortURL%>" method="post">
+  <form action="/urls/<%=urls.shortURL%>" method="post">
     <input id="shortURL" type="text" name="longURL">
-    <button>Update</button>
+    <button>Update URL</button>
   </form>
 
 </body>

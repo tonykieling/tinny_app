@@ -53,14 +53,6 @@ const users = {
   }
 };
 
-app.get("/", (req, res) => {
-  res.send("Hello WD!");
-});
-
-app.get("/urls.json", (req, res) => {
-  res.json(urlDatabase);
-});
-
 
 // function to insert shortURLs in the database
 function userURLS (urls, user){
@@ -82,7 +74,30 @@ function userURLS (urls, user){
 }
 
 
+app.get("/", (req, res) => {
+  // console.log("user: ", users[req.session.user_id]);
+  if (!users[req.session.user_id]){
+    res.redirect("/login");
+    return;
+  }
+  res.redirect("/urls");
+  // let templateVars = {
+  //   user: users[req.session.user_id],
+  //   urls: userURLS(urlDatabase, users[req.session.user_id])
+  // }
+  // res.render('urls_index', templateVars);
+
+});
+
+app.get("/urls.json", (req, res) => {
+  res.json(urlDatabase);
+});
+
 app.get("/urls", function (req, res) {
+  if (!users[req.session.user_id]){
+    res.render("no_user_page");
+    return;
+  }
   let templateVars = {
     user: users[req.session.user_id],
     urls: userURLS(urlDatabase, users[req.session.user_id])
@@ -102,14 +117,13 @@ app.post("/urls", (req, res) => {
 
 
 app.get("/urls/new", (req, res) => {
-  let templateVars = {
-    user: users[req.session.user_id],
-  }
   if (!req.session.user_id){
     res.render("login_page");
     return;
   }
-    
+  let templateVars = {
+    user: users[req.session.user_id],
+  }    
   res.render("urls_new", templateVars);
 });
 
@@ -130,27 +144,65 @@ app.get("/u/:shortURL", (req, res) => {
 
 // delete short url
 app.post("/urls/:id/delete", (req, res) => {
-  delete urlDatabase[req.params.id];
-  res.redirect("/urls");
-});
-
-
-app.get("/urls/:id", (req, res) => {
+  if (!urlDatabase[req.params.id]){
+    const templateVars = {temp: req.params.id};
+    res.render("no_shortURL", templateVars);
+    return;
+  }
   let templateVars = { urls: urlDatabase[req.params.id] };
   if (!req.session.user_id){
     templateVars["user"] = null;
     res.render("no_user_page");
+    return;
   } else {
+    if (urlDatabase[req.params.id].userID !== req.session.user_id){
+      res.send("You are not the owner of this shortURL, therefore you can not edit it.");
+    }  
+    delete urlDatabase[req.params.id];
+    res.redirect("/urls");
+  }
+});
+
+
+app.get("/urls/:id", (req, res) => {
+  if (!urlDatabase[req.params.id]){
+    const templateVars = {temp: req.params.id};
+    res.render("no_shortURL", templateVars);
+    return;
+  }
+  let templateVars = { urls: urlDatabase[req.params.id] };
+  if (!req.session.user_id){
+    templateVars["user"] = null;
+    res.render("no_user_page");
+    return;
+  } else {
+    if (urlDatabase[req.params.id].userID !== req.session.user_id){
+      res.send("You are not the owner of this shortURL, therefore you can not edit it.");
+    }
     templateVars.user = users[req.session.user_id];
     res.render("urls_show", templateVars);
   }
 });
 
-
 // update short url
 app.post("/urls/:id", (req, res) => {
-  urlDatabase[req.params.id].longURL = req.body.longURL;
-  res.redirect("/urls");
+  if (!urlDatabase[req.params.id]){
+    const templateVars = {temp: req.params.id};
+    res.render("no_shortURL", templateVars);
+    return;
+  }
+  let templateVars = { urls: urlDatabase[req.params.id] };
+  if (!req.session.user_id){
+    templateVars["user"] = null;
+    res.render("no_user_page");
+    return;
+  } else {
+    if (urlDatabase[req.params.id].userID !== req.session.user_id){
+      res.send("You are not the owner of this shortURL, therefore you can not edit it.");
+    }
+    urlDatabase[req.params.id].longURL = req.body.longURL;
+    res.redirect("/urls");
+  }
 });
 
 
@@ -164,7 +216,7 @@ app.post("/login", (req, res) => {
     users[key].email === req.body.email
   )).toString();
   if (!checkUser.length) {
-    res.sendStatus(403);
+    res.render("login_page");
     return;
   }
   if(bcrypt.compareSync(req.body.password, users[checkUser].password)) {
@@ -192,14 +244,14 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
   // check if the email or password are empty, if so, it sends 400
   if ((!req.body.email) || (!req.body.password)){
-    res.sendStatus(400);
+    res.send("Please, fill the email and password.");
     return;
   }
   const checkUser = (Object.keys(users).filter(key =>
     users[key].email === req.body.email
   )).toString();
   if ((checkUser.length)){ // check whether user alread exists into the db, if so, error 
-    res.sendStatus(400);
+    res.send("User already exists");
     return;
   }
   const randomUserId = generateRandomString();    // calling the function to generate a random set of characteres which is gonna be used as user's id

@@ -15,9 +15,12 @@
       <td>
         <%= urls[item].shortURL %> --> <%= urls[item].longURL%>
         <form action="/urls/<%= urls[item].shortURL%>/delete" method="post">      
-        <a href= "/urls/<%= urls[item].shortURL%>/">Edit</a>
-        <button>Delete</button>     
-      </form> 
+          <button>Delete</button>
+        </form>
+
+        <form action="/urls/<%= urls[item].shortURL%>">
+          <button>Edit</button>
+        </form> 
       </td>          
   </table>        
     <% } %>

@@ -7,16 +7,17 @@ TinyApp is a full stack web application built with Node and Express which allows
 
 * **Main Page** 
 
-!["First screen"](docs/first_screen.png =150x100)
 <img src="docs/first_screen.png" width="450" height="300" />
 
 * **User's Page**
 
 !["User's short URLs"](docs/urls.png =150x100)
+<img src="docs/urls.png" width="450" height="300" />
 
 * **Creating New shortURLs**
 
 !["Creating new shortURLs"](docs/creating_shortURLs.png =150x100)
+<img src="docs/creating_shortURLs.png" width="450" height="300" />
 
 
 ## Dependencies

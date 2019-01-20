@@ -35,4 +35,4 @@ TinyApp is a full stack web application built with Node and Express which allows
 
 ## Improvements
 - A better interface with CSS
-- Buttons to return from some pages
+- Buttons to return to some pages

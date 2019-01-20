@@ -8,6 +8,7 @@ TinyApp is a full stack web application built with Node and Express which allows
 * **Main Page** 
 
 !["First screen"](docs/first_screen.png =150x100)
+<img src="docs/first_screen.png" width="150" height="100" />
 
 * **User's Page**
 

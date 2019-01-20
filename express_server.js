@@ -75,23 +75,18 @@ function userURLS (urls, user){
 
 
 app.get("/", (req, res) => {
-  // console.log("user: ", users[req.session.user_id]);
   if (!users[req.session.user_id]){
     res.redirect("/login");
     return;
   }
   res.redirect("/urls");
-  // let templateVars = {
-  //   user: users[req.session.user_id],
-  //   urls: userURLS(urlDatabase, users[req.session.user_id])
-  // }
-  // res.render('urls_index', templateVars);
-
 });
+
 
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
+
 
 app.get("/urls", function (req, res) {
   if (!users[req.session.user_id]){
@@ -137,6 +132,7 @@ app.get("/hello", (req, res) => {
 app.get("/u/:shortURL", (req, res) => {
   if (!urlDatabase[req.params.shortURL]){
     res.send("ShortURL not found");
+    return;
   }
   res.redirect(urlDatabase[req.params.shortURL].longURL);
 });

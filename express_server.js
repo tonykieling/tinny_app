@@ -1,4 +1,4 @@
-// https://github.com/tonykieling/tinny_app
+// https://github.com/tonykieling/tiny_app
 
 var express = require("express");
 var app = express();
@@ -76,7 +76,8 @@ function userURLS (urls, user){
 
 app.get("/", (req, res) => {
   if (!users[req.session.user_id]){
-    res.redirect("/login");
+    // res.redirect("/login");
+    res.render("no_user_page");
     return;
   }
   res.redirect("/urls");

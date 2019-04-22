@@ -33,8 +33,7 @@ TinyApp is a full stack web application built with Node and Express which allows
 2. Install dependencies using the npm install command.
 3. Start the web server by the command `node express_server.js`.
 4. Go to http://localhost:3333/ in your browser.
-5. For development and test purposes, there is a file in server/lib/util/mongo_example.js which cleans and starts the database with 3 documents.
-6. There is a built-in user which `email` is `test@test.com` and `password` is `testp`.
+5. There is a built-in user which `email` is `test@test.com` and `password` is `testp`.
 
 
 ## Improvements

@@ -29,10 +29,10 @@ TinyApp is a full stack web application built with Node and Express which allows
 
 
 ## Getting started
-- All dependencies will be installed using the command `npm install` - it also runs the Application.
+- All dependencies will be installed using the command `npm install`.
 - Another way to run is by the command `node express_server.js`.
 
 
 ## Improvements
-- A better interface with CSS
-- Buttons to return to some pages
+- A better interface with CSS and Bootstrap
+- Buttons to return to previous pages

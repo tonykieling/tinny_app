@@ -2,7 +2,7 @@
 
 var express = require("express");
 var app = express();
-var PORT = 8080; // default port 8080
+const PORT = process.env.PORT || 3333;  // default port = 3333
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));

@@ -108,7 +108,7 @@ app.post("/urls", (req, res) => {
     shortURL: newShortURL,
     longURL: req.body.longURL
   };
-  res.redirect(`http://localhost:8080/urls/${newShortURL}`);
+  res.redirect(`http://localhost:${PORT}/urls/${newShortURL}`);
 });
 
 
@@ -227,7 +227,7 @@ app.post("/login", (req, res) => {
 // logout feature
 app.post("/logout", (req, res) => {
   req.session = null;
-  res.redirect("/urls");
+  res.redirect("/");
 });
 
 
